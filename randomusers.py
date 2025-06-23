@@ -7,6 +7,7 @@ randomuser_data = {
             "first": "Atilla",
             "last": "Bennink"
         },
+        
         "location": {
             "street": {
                 "number": 7541,
@@ -580,9 +581,21 @@ def get_full_names(data: dict) -> list[str]:
     Returns:
         list[str]: List of full names.
     """
-    pass
-
-
+    users = data['results']
+    
+    full_names = list()
+    
+    for user in users:
+        name = user['name']
+        first_name = name['first']
+        last_name = name['last']
+        
+        full_name = f"{first_name} : {last_name}"
+        
+        full_names.append(full_name)
+        
+    return full_names
+        
 def get_users_by_country(data: dict, country: str) -> list[dict]:
     """
     Filters and returns users who live in a specific country.
@@ -594,8 +607,18 @@ def get_users_by_country(data: dict, country: str) -> list[dict]:
     Returns:
         list[dict]: List of dictionaries containing full name and email of matching users.
     """
-    pass
-
+    users = data['results']
+    full_names = list()
+    
+    for user in users:
+        if user['location']['country'] == country:
+           name = user['name']
+           first_name = name['first']
+           last_name = name['last']
+           email = user['email']
+           full_name = f"name: {first_name} {last_name} , email: {email}"
+           full_names.append(full_name)
+    return full_names
 
 def count_users_by_gender(data: dict) -> dict:
     """
@@ -607,7 +630,25 @@ def count_users_by_gender(data: dict) -> dict:
     Returns:
         dict: Dictionary with gender as keys and count as values.
     """
-    pass
+    users = data['results']
+    count_male = 0
+    count_female = 0
+    gender_list = list()
+    
+    
+    for user in users:
+        if user["gender"] == 'male':
+            count_male += 1
+            
+        if user["gender"] == 'female':
+            count_female += 1
+    
+    result = f"male:{count_male} , female : {count_female}" 
+    
+    gender_list.append(result)
+    
+    return gender_list       
+            
 
 
 def get_emails_of_older_than(data: dict, age: int) -> list[str]:
@@ -621,7 +662,16 @@ def get_emails_of_older_than(data: dict, age: int) -> list[str]:
     Returns:
         list[str]: List of email addresses.
     """
-    pass
+    users = data['results']
+    email_list = list()
+    
+    for user in users:
+       if user['dob']['age'] >= age:
+           email = user['email']
+           email_list.append(email)
+        
+    
+    return email_list
 
 
 def sort_users_by_age(data: dict, descending: bool = False) -> list[dict]:
@@ -736,7 +786,12 @@ def run_functions() -> None:
     """
     Runs and prints results of all data processing functions for demonstration purposes.
     """
-    print("Full Names:", get_full_names(randomuser_data))
+    # 1 print("Full Names:", get_full_names(randomuser_data))
+    # 2 print("name and email by country",get_users_by_country(randomuser_data,'Netherlands'))
+    # 3 print("count by gender",count_users_by_gender(randomuser_data))
+    age = int(input("age = "))
+    result = get_emails_of_older_than(randomuser_data,age)
+    print("emails older than age",result)
 
 
 run_functions()
