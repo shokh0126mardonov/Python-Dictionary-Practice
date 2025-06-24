@@ -685,9 +685,7 @@ def sort_users_by_age(data: dict, descending: bool = False) -> list[dict]: #5
     Returns:
         list[dict]: List of users with name and age sorted accordingly.
     """
-   
     
-
 
 def get_usernames_starting_with(data: dict, letter: str) -> list[str]: #6
     """
@@ -847,21 +845,7 @@ def get_registered_before_year(data: dict, year: int) -> list[dict]: # 12
     Returns:
         list[dict]: List of users with full name and registration date.
     """
-    users = data['results']
-    result_list = list()
-    
-    for user in users:
-        old_year = int(user['registered']['date'][0:3])
-        if old_year < year :
-            full_name = f"{user['name']['first']} {user['name']['last']}"
-            reg_date =user['registered']['date'][0:10]
-            older_dict = {
-                "name" : full_name,
-                "registered" : reg_date
-            }
-            result_list.append(older_dict)
-    return result_list
-
+   
 def run_functions() -> None:
     """
     Runs and prints results of all data processing functions for demonstration purposes.
@@ -874,7 +858,9 @@ def run_functions() -> None:
     
     # 4  age = int(input("age = "))
     #   result = get_emails_of_older_than(randomuser_data,age)
-    #   print("emails older than age",result)  
+    #   print("emails older than age",result) 
+    # 5 result = sort_users_by_age(randomuser_data,True)
+    # print(result)
     
     # 6 letter = input("harfni kiriting = ")
     #   result = get_usernames_starting_with(randomuser_data,letter)
@@ -895,8 +881,8 @@ def run_functions() -> None:
     # 11 offset = input("offset = ")
     # result = find_users_in_timezone(randomuser_data,offset)
     # print(result)
-    year = int(input("year : "))
-    result = get_registered_before_year(randomuser_data,year)
-    print(result)
+    # 12 year = int(input("year : "))
+    # result = get_registered_before_year(randomuser_data,year)
+    # print(result)
 
 run_functions()
