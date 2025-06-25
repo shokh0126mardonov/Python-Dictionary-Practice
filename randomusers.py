@@ -845,6 +845,22 @@ def get_registered_before_year(data: dict, year: int) -> list[dict]: # 12
     Returns:
         list[dict]: List of users with full name and registration date.
     """
+    users = data['results']
+    matching_users = list()
+
+    for user in users:
+        registered_date = user['registered']['date']
+        registered_year = int(registered_date[:4])
+
+        if registered_year < year:
+            full_name = f"{user['name']['first']} {user['name']['last']}"
+            user_info = {
+                'name': full_name,
+                'registered': registered_date[:10]
+            }
+            matching_users.append(user_info)
+
+    return matching_users
    
 def run_functions() -> None:
     """
@@ -881,8 +897,8 @@ def run_functions() -> None:
     # 11 offset = input("offset = ")
     # result = find_users_in_timezone(randomuser_data,offset)
     # print(result)
-    # 12 year = int(input("year : "))
-    # result = get_registered_before_year(randomuser_data,year)
-    # print(result)
+    year = int(input("year : "))
+    result = get_registered_before_year(randomuser_data,year)
+    print(result)
 
 run_functions()
